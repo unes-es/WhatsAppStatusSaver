@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WhatsApp Status Saver</string>
+    <string name="nav_header_title">WhatsApp Status</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">WhatsApp Status</string>
+    <string name="menu_gallery">Saved Status</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="saved_to_gallery">Saved to gallery</string>
+    <string name="deleted">Deleted</string>
+    <string name="refreshed">Refreshed</string>
+    <string name="share_to">Share images to..</string>
+    <string name="dark_mode">Dark mode</string>
+    </resources>
