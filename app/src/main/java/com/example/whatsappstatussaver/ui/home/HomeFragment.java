@@ -105,6 +105,7 @@ public class HomeFragment extends Fragment {
             refreshGridView();
             menu.findItem(R.id.save).setVisible(false);
             menu.findItem(R.id.share).setVisible(false);
+            menu.findItem(R.id.select_all).setVisible(false);
             menu.findItem(R.id.refresh).setVisible(true);
         }
         if (item.getItemId() == R.id.refresh){
@@ -114,6 +115,9 @@ public class HomeFragment extends Fragment {
         if (item.getItemId() == R.id.share){
             FileManager.share(context,FileManager.whatsAppFiles,selectedFiles);
             //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
+        }
+        if (item.getItemId() == R.id.select_all){
+            Toast.makeText(context,"Select ALL",Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -159,11 +163,13 @@ public class HomeFragment extends Fragment {
                 if (selectedFiles.isEmpty()) {
                     menu.findItem(R.id.save).setVisible(false);
                     menu.findItem(R.id.share).setVisible(false);
+                    menu.findItem(R.id.select_all).setVisible(false);
                     menu.findItem(R.id.refresh).setVisible(true);
                 }
                 else {
                     menu.findItem(R.id.save).setVisible(true);
                     menu.findItem(R.id.share).setVisible(true);
+                    menu.findItem(R.id.select_all).setVisible(true);
                     menu.findItem(R.id.refresh).setVisible(false);
                 }
             }
@@ -183,11 +189,13 @@ public class HomeFragment extends Fragment {
                 if (selectedFiles.isEmpty()) {
                     menu.findItem(R.id.save).setVisible(false);
                     menu.findItem(R.id.share).setVisible(false);
+                    menu.findItem(R.id.select_all).setVisible(false);
                     menu.findItem(R.id.refresh).setVisible(true);
                 }
                 else {
                     menu.findItem(R.id.save).setVisible(true);
                     menu.findItem(R.id.share).setVisible(true);
+                    menu.findItem(R.id.select_all).setVisible(true);
                     menu.findItem(R.id.refresh).setVisible(false);
                 }
                 return true;

@@ -25,4 +25,10 @@
         android:title=""
         android:visible="false"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/select_all"
+        android:icon="@drawable/ic_select_all_24px"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 </menu>
