@@ -24,8 +24,6 @@ public class ImageAdapter extends BaseAdapter {
 
     List<String> files = new ArrayList<>();
 
-
-    // Constructor
     public ImageAdapter(Context c, List<String> files) {
         mContext = c;
         this.files = files;
@@ -43,8 +41,6 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-
-    // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView imageView = new ImageView(mContext);
@@ -53,33 +49,7 @@ public class ImageAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.grid_image_view, null);
             imageView = convertView.findViewById(R.id.imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Log.d("tag", "getView: "+imageView.getMeasuredWidth());
-            //imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
         }
-
-
-
-        /*if (convertView == null) {
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //imageView.setPadding(8, 8, 8, 8);
-            GradientDrawable border = new GradientDrawable();
-            border.setStroke(6, 0xFFFF0000);
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                imageView.setBackgroundDrawable(border);
-            }
-            else {
-                imageView.setBackground(border);
-            }
-        }
-        else
-        {
-            imageView = (ImageView) convertView;
-        }*/
-
-        //files.get(position)
-        //Bitmap myBitmap = BitmapFactory.decodeFile(files.get(position));
 
         Bitmap myBitmap = ThumbnailUtils.createVideoThumbnail(files.get(position), MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
 
