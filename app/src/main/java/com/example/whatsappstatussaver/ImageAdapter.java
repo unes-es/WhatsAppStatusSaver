@@ -4,17 +4,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +61,13 @@ public class ImageAdapter extends BaseAdapter {
         {
             myBitmap = BitmapFactory.decodeFile(files.get(position));
         }
+        else {
+            imageView.setForeground(mContext.getDrawable(R.drawable.ic_play_circle_outline_24px));
+        }
 
         imageView.setImageBitmap(myBitmap);
+
+
 
 
         return convertView;
