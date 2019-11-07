@@ -84,6 +84,7 @@ public class GalleryFragment extends Fragment {
     }
     void refreshGridView(){
         FileManager.fetchFilesFromDir(FileManager.savedFiles, FileManager.SAVED_STATUS_DIR);
+        imageAdapter = new ImageAdapter(context,FileManager.savedFiles,selectedFiles);
         imageAdapter.notifyDataSetChanged();
         gridview.setAdapter(imageAdapter);
         if(FileManager.savedFiles.isEmpty()) {
@@ -135,46 +136,17 @@ public class GalleryFragment extends Fragment {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(FileManager.savedFiles.get(position)));
-                    //String mimeType = getContentResolver().getType(photoURI);
                     intent.setDataAndType(photoURI, context.getContentResolver().getType(photoURI));
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(intent);
-                    //FileManager.saveToGallery(FileManager.files.get(position));
                 }
                 else {
                     if(selectedFiles.contains(position)) {
                         selectedFiles.remove(position);
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            view.setBackgroundDrawable(null);
-                        } else {
-                            view.setBackground(null);
-                        }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                            view.setAlpha(1f);
-                        } else {
-                            AlphaAnimation alphaAnim = new AlphaAnimation(1f, 1f);
-                            alphaAnim.setDuration(0);
-                            alphaAnim.setFillAfter(true);
-                            view.startAnimation(alphaAnim);
-                        }
+                        view.setAlpha(1f);
                     }else
                     {
-                        GradientDrawable border = new GradientDrawable();
-                        border.setStroke(6, 0xFFFF0000);
-                        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            view.setBackgroundDrawable(border);
-                        }
-                        else {
-                            view.setBackground(border);
-                        }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                            view.setAlpha(0.3f);
-                        } else {
-                            AlphaAnimation alphaAnim = new AlphaAnimation(0.3f, 0.3f);
-                            alphaAnim.setDuration(0);
-                            alphaAnim.setFillAfter(true);
-                            view.startAnimation(alphaAnim);
-                        }
+                        view.setAlpha(0.3f);
                         selectedFiles.add(position);
                     }
                 }
@@ -197,22 +169,7 @@ public class GalleryFragment extends Fragment {
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                GradientDrawable border = new GradientDrawable();
-                border.setStroke(6, 0xFFFF0000);
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    view.setBackgroundDrawable(border);
-                }
-                else {
-                    view.setBackground(border);
-                }
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    view.setAlpha(0.3f);
-                } else {
-                    AlphaAnimation alphaAnim = new AlphaAnimation(0.3f, 0.3f);
-                    alphaAnim.setDuration(0);
-                    alphaAnim.setFillAfter(true);
-                    view.startAnimation(alphaAnim);
-                }
+                view.setAlpha(0.3f);
                 selectedFiles.add(position);
                 if (selectedFiles.isEmpty()) {
                     menu.findItem(R.id.delete).setVisible(false);

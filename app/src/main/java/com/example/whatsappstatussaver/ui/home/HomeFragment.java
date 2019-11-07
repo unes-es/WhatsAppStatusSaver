@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
 
     void refreshGridView(){
         FileManager.fetchFilesFromDir(FileManager.whatsAppFiles, FileManager.WHATSAPP_STATUS_DIR);
+        imageAdapter = new ImageAdapter(context,FileManager.whatsAppFiles,selectedFiles);
         imageAdapter.notifyDataSetChanged();
         gridview.setAdapter(imageAdapter);
         if(FileManager.whatsAppFiles.isEmpty()) {
@@ -129,7 +130,16 @@ public class HomeFragment extends Fragment {
             //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.select_all){
-            Toast.makeText(context,"Select ALL",Toast.LENGTH_SHORT).show();
+            if(selectedFiles.size() == FileManager.whatsAppFiles.size())
+            {
+                selectedFiles.clear();
+            }
+            else {
+                for (int i = 0; i < FileManager.whatsAppFiles.size(); i++) {
+                    selectedFiles.add(i);
+                }
+            }
+            refreshGridView();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,33 +152,17 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(FileManager.whatsAppFiles.get(position)));
-                    //String mimeType = getContentResolver().getType(photoURI);
                     intent.setDataAndType(photoURI, context.getContentResolver().getType(photoURI));
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(intent);
-                    //FileManager.saveToGallery(FileManager.files.get(position));
                 }
                 else {
                     if(selectedFiles.contains(position)) {
                         selectedFiles.remove(position);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                            view.setAlpha(1f);
-                        } else {
-                            AlphaAnimation alphaAnim = new AlphaAnimation(1f, 1f);
-                            alphaAnim.setDuration(0);
-                            alphaAnim.setFillAfter(true);
-                            view.startAnimation(alphaAnim);
-                        }
+                        view.setAlpha(1f);
                     }else
                     {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                            view.setAlpha(0.3f);
-                        } else {
-                            AlphaAnimation alphaAnim = new AlphaAnimation(0.3f, 0.3f);
-                            alphaAnim.setDuration(0);
-                            alphaAnim.setFillAfter(true);
-                            view.startAnimation(alphaAnim);
-                        }
+                        view.setAlpha(0.3f);
                         selectedFiles.add(position);
                     }
                 }
@@ -189,14 +183,7 @@ public class HomeFragment extends Fragment {
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    view.setAlpha(0.3f);
-                } else {
-                    AlphaAnimation alphaAnim = new AlphaAnimation(0.3f, 0.3f);
-                    alphaAnim.setDuration(0);
-                    alphaAnim.setFillAfter(true);
-                    view.startAnimation(alphaAnim);
-                }
+                view.setAlpha(0.3f);
                 selectedFiles.add(position);
                 if (selectedFiles.isEmpty()) {
                     menu.findItem(R.id.save).setVisible(false);

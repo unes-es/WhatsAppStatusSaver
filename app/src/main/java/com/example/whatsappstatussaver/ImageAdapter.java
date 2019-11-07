@@ -1,15 +1,20 @@
 package com.example.whatsappstatussaver;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.CancellationSignal;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +24,30 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
     List<String> files = new ArrayList<>();
+    Set<Integer> selectedFiles = new HashSet<>();
 
     public ImageAdapter(Context c, List<String> files) {
         mContext = c;
         this.files = files;
+    }
+
+    public ImageAdapter(Context c, List<String> files, Set<Integer> selectedFiles)
+    {
+        mContext = c;
+        this.files = files;
+        this.selectedFiles = selectedFiles;
     }
 
     public int getCount() {
@@ -45,32 +62,53 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        ImageView imageView = new ImageView(mContext);
+        ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
+            viewHolder.image = new ImageView(mContext);
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.grid_image_view, null);
-            imageView = convertView.findViewById(R.id.imageView);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            convertView.setTag(viewHolder);
         }
 
-        Bitmap myBitmap = ThumbnailUtils.createVideoThumbnail(files.get(position), MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
-
-        if (myBitmap == null)
+        if(selectedFiles.contains(position)) {
+            convertView.setAlpha(0.3f);
+        }else
         {
-            myBitmap = BitmapFactory.decodeFile(files.get(position));
+            convertView.setAlpha(1f);
+        }
+
+
+        viewHolder.image = convertView.findViewById(R.id.imageView);
+
+        Uri photoURI = FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName(), new File(files.get(position)));
+        Bitmap myBitmap;
+        if (mContext.getContentResolver().getType(photoURI) == "video/mp4")
+        {
+            myBitmap = ThumbnailUtils.createVideoThumbnail(files.get(position), MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
+            viewHolder.image.setForeground(mContext.getDrawable(R.drawable.ic_play_circle_outline_24px));
         }
         else {
-            imageView.setForeground(mContext.getDrawable(R.drawable.ic_play_circle_outline_24px));
+            myBitmap = BitmapFactory.decodeFile(files.get(position));
         }
-
-        imageView.setImageBitmap(myBitmap);
-
-
-
+        viewHolder.image.setImageBitmap(myBitmap);
 
         return convertView;
     }
+
+    /*public Bitmap loadImageFromFile(Integer position){
+        //Bitmap myBitmap = ThumbnailUtils.createVideoThumbnail(files.get(position), MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
+        //if (myBitmap == null)
+        /*{
+            Bitmap myBitmap = BitmapFactory.decodeFile(files.get(position));
+        }*/
+        /*else {
+            imageView.setForeground(mContext.getDrawable(R.drawable.ic_play_circle_outline_24px));
+        }
+        return BitmapFactory.decodeFile(files.get(position));
+    }*/
+
+    private static class ViewHolder{ public ImageView image;}
 
 }
