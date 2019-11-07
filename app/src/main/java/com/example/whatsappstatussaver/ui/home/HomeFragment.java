@@ -17,6 +17,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,8 @@ public class HomeFragment extends Fragment {
     ImageAdapter imageAdapter;
     Menu menu;
     View root;
+    TextView emptyMessage;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -56,6 +59,7 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+        emptyMessage = root.findViewById(R.id.emptyMessage);
 
         context = root.getContext();
         File f = new File(FileManager.SAVED_STATUS_DIR);
@@ -69,14 +73,15 @@ public class HomeFragment extends Fragment {
         setGridViewListeners();
 
         if(FileManager.whatsAppFiles.isEmpty()) {
-            Toast.makeText(context, "YOU HAVE NO SAVED STATUS YET", Toast.LENGTH_LONG).show();
+            emptyMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            emptyMessage.setVisibility(View.INVISIBLE);
         }
 
         //gridview.setColumnWidth(100);
         //gridview.setPadding(4,4,4,4);
         //gridview.setHorizontalSpacing(50);
-
-
 
         return root;
     }
@@ -87,6 +92,13 @@ public class HomeFragment extends Fragment {
         FileManager.fetchFilesFromDir(FileManager.whatsAppFiles, FileManager.WHATSAPP_STATUS_DIR);
         imageAdapter.notifyDataSetChanged();
         gridview.setAdapter(imageAdapter);
+        if(FileManager.whatsAppFiles.isEmpty()) {
+            emptyMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            emptyMessage.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.example.whatsappstatussaver.ui.gallery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -20,11 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.whatsappstatussaver.FileManager;
@@ -46,6 +43,7 @@ public class GalleryFragment extends Fragment {
     ImageAdapter imageAdapter;
     Menu menu;
     View root;
+    TextView emptyMessage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +51,8 @@ public class GalleryFragment extends Fragment {
                 ViewModelProviders.of(this).get(GalleryViewModel.class);
         root = inflater.inflate(R.layout.fragment_gallery, container, false);
         setHasOptionsMenu(true);
-
+        context = root.getContext();
+        emptyMessage = root.findViewById(R.id.emptyMessage);
         /*final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -62,7 +61,7 @@ public class GalleryFragment extends Fragment {
             }
         });*/
 
-        context = root.getContext();
+
         File f = new File(FileManager.SAVED_STATUS_DIR);
         if (!f.exists()){
             f.mkdir();
@@ -76,7 +75,10 @@ public class GalleryFragment extends Fragment {
         gridview.setAdapter(imageAdapter);
         setGridViewListener();
         if(FileManager.savedFiles.isEmpty()) {
-            Toast.makeText(context, "YOU HAVE NO SAVED STATUS YET", Toast.LENGTH_LONG).show();
+            emptyMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            emptyMessage.setVisibility(View.INVISIBLE);
         }
         return root;
     }
@@ -84,6 +86,12 @@ public class GalleryFragment extends Fragment {
         FileManager.fetchFilesFromDir(FileManager.savedFiles, FileManager.SAVED_STATUS_DIR);
         imageAdapter.notifyDataSetChanged();
         gridview.setAdapter(imageAdapter);
+        if(FileManager.savedFiles.isEmpty()) {
+            emptyMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            emptyMessage.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
