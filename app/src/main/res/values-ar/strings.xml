@@ -15,12 +15,13 @@
         <string name = "refreshed"> تم التحديث </string>
         <string name = "share_to"> مشاركة الصور إلى .. </string>
         <string name = "dark_mode"> الوضع الغامق </string>
-        <string name = "empty_message"> ليس لديك حالات محفوظة حتى الآن! حفظ بعض وانقر فوق تحديث </string>
-        <string name = "empty_message1"> ليس لديك حالات بعد! انتقل إلى <b> WhatsApp </b> ، افتح الحالات ، ثم انقر فوق تحديث </string>
-        <string name = "enable_notifications"> تشغيل الإشعارات </string>
-        <string name = "title_activity_settings"> الإعدادات </string>
+        <string name = "empty_message"> ليس لديك حالات محفوظة حتى الآن! حفظ بعض وانقر فوق تحديث </string><![CDATA[
+        
+        ]]><string name = "enable_notifications"> تشغيل الإشعارات </string><![CDATA[
+        
 
-        <string name = "general_header"> عام </string>
+        ]]>
+    <string name = "general_header"> عام </string>
         <string name = "display_settings_header"> العرض </string>
 
         <string name = "notification_title"> لم نراك بعد قليل </string>

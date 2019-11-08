@@ -14,12 +14,13 @@
         <string name="refreshed"> Actualisé </string>
         <string name="share_to"> Partager des images vers .. </string>
         <string name="dark_mode"> Mode sombre </string>
-        <string name="empty_message"> Vous n\'avez pas encore de statut enregistré! en enregistrez et cliquez sur Actualiser </string>
-        <string name="empty_message1"> Vous n\'avez pas encore de statut! Accédez à WhatsApp, ouvrez les statuts, puis cliquez sur Actualiser </string>
-        <string name="enable_notifications"> Activer les notifications </string>
-        <string name="title_activity_settings"> Paramètres </string>
+        <string name="empty_message"> Vous n\'avez pas encore de statut enregistré! en enregistrez et cliquez sur Actualiser </string><![CDATA[
+        
+        ]]><string name="enable_notifications"> Activer les notifications </string><![CDATA[
+        
 
-        <string name="general_header"> Général </string>
+        ]]>
+    <string name="general_header"> Général </string>
         <string name="display_settings_header"> Afficher </string>
 
         <string name="notification_title"> Nous ne vous verrons pas depuis longtemps </string>

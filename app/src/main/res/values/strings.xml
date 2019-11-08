@@ -16,9 +16,7 @@
     <string name="share_to">Share images to..</string>
     <string name="dark_mode">Dark mode</string>
     <string name="empty_message">You have no saved statuses yet! save some and click refresh</string>
-    <string name="empty_message1">You have no statuses yet! go to <b>WhatsApp</b>, open statuses then click refresh</string>
     <string name="enable_notifications">Turn on notifications</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
     <string name="general_header">General</string>
