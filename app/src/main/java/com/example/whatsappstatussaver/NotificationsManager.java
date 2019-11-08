@@ -57,7 +57,7 @@ public class NotificationsManager extends BroadcastReceiver {
         notificationId = (new Random()).nextInt();
         Log.d("tag",""+notificationId);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_play_circle_outline_24px)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(context.getString(R.string.notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

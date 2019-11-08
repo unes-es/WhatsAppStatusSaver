@@ -165,7 +165,8 @@ public class HomeFragment extends Fragment {
                     Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(FileManager.whatsAppFiles.get(position)));
                     intent.setDataAndType(photoURI, context.getContentResolver().getType(photoURI));
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivity(intent);
+                    //startActivity(intent);
+                    NotificationsManager.notify(context);
                 }
                 else {
                     if(selectedFiles.contains(position)) {
