@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name = "nav_header_subtitle"> أفضل طريقة لحفظ حالات whatsApp </string>
+        <string name = "nav_header_desc"> رأس التنقل </ string>
+
+        <string name = "menu_home"> حالة WhatsApp </string>
+        <string name = "menu_gallery"> الحالة المحفوظة </ string>
+        <string name = "menu_slideshow"> عرض الشرائح </string>
+        <string name = "menu_tools"> الأدوات </ string>
+        <string name = "menu_share"> المشاركة </ string>
+        <string name = "menu_settings"> الإعدادات </ string>
+        <string name = "saved_to_gallery"> تم الحفظ في المعرض </ string>
+        <string name = "deleted"> محذوف </ string>
+        <string name = "refreshed"> تم التحديث </ string>
+        <string name = "share_to"> مشاركة الصور إلى .. </ string>
+        <string name = "dark_mode"> الوضع الغامق </ string>
+        <string name = "empty_message"> ليس لديك حالات محفوظة حتى الآن! حفظ بعض وانقر فوق تحديث </ string>
+        <string name = "empty_message1"> ليس لديك حالات بعد! انتقل إلى <b> WhatsApp </b> ، افتح الحالات ، ثم انقر فوق تحديث </ string>
+        <string name = "enable_notifications"> تشغيل الإشعارات </ string>
+        <string name = "title_activity_settings"> الإعدادات </ string>
+
+        <string name = "general_header"> عام </ string>
+        <string name = "display_settings_header"> العرض </string>
+
+        <string name = "notification_title"> لم نراك بعد قليل </ string>
+        <string name = "notification_text"> لديك حالات جديدة في انتظارك للحفظ </ string>
+
+</resources>
