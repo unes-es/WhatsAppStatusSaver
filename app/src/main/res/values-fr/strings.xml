@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_header_subtitle"> Meilleur moyen de sauvegarder les statuts WhatsApp </ string>
-        <string name="nav_header_desc"> En-tête de navigation </ string>
+    <string name="nav_header_subtitle"> Meilleur moyen de sauvegarder les statuts WhatsApp </string>
+        <string name="nav_header_desc"> En-tête de navigation </string>
 
-        <string name="menu_home"> Status WhatsApp </ string>
-        <string name="menu_gallery"> Statut enregistré </ string>
-        <string name="menu_slideshow"> Diaporama </ string>
-        <string name="menu_tools"> Outils </ string>
-        <string name="menu_share"> Partager </ string>
-        <string name="menu_settings"> Paramètres </ string>
-        <string name="saved_to_gallery"> Enregistré dans la galerie </ string>
-        <string name="deleted"> Supprimé </ string>
-        <string name="refreshed"> Actualisé </ string>
-        <string name="share_to"> Partager des images vers .. </ string>
-        <string name="dark_mode"> Mode sombre </ string>
-        <string name="empty_message"> Vous n\'avez pas encore de statut enregistré! en enregistrez et cliquez sur Actualiser </ string>
-        <string name="empty_message1"> Vous n\'avez pas encore de statut! Accédez à WhatsApp, ouvrez les statuts, puis cliquez sur Actualiser </ string>
-        <string name="enable_notifications"> Activer les notifications </ string>
-        <string name="title_activity_settings"> Paramètres </ string>
+        <string name="menu_home"> Status WhatsApp </string>
+        <string name="menu_gallery"> Statut enregistré </string>
+        <string name="menu_slideshow"> Diaporama </string>
+        <string name="menu_tools"> Outils </string>
+        <string name="menu_share"> Partager </string>
+        <string name="menu_settings"> Paramètres </string>
+        <string name="saved_to_gallery"> Enregistré dans la galerie </string>
+        <string name="deleted"> Supprimé </string>
+        <string name="refreshed"> Actualisé </string>
+        <string name="share_to"> Partager des images vers .. </string>
+        <string name="dark_mode"> Mode sombre </string>
+        <string name="empty_message"> Vous n\'avez pas encore de statut enregistré! en enregistrez et cliquez sur Actualiser </string>
+        <string name="empty_message1"> Vous n\'avez pas encore de statut! Accédez à WhatsApp, ouvrez les statuts, puis cliquez sur Actualiser </string>
+        <string name="enable_notifications"> Activer les notifications </string>
+        <string name="title_activity_settings"> Paramètres </string>
 
-        <string name="general_header"> Général </ string>
-        <string name="display_settings_header"> Afficher </ string>
+        <string name="general_header"> Général </string>
+        <string name="display_settings_header"> Afficher </string>
 
-        <string name="notification_title"> Nous ne vous verrons pas depuis longtemps </ string>
-        <string name="notification_text"> De nouveaux statuts vous attendent pour enregistrer </ string>
+        <string name="notification_title"> Nous ne vous verrons pas depuis longtemps </string>
+        <string name="notification_text"> De nouveaux statuts vous attendent pour enregistrer </string>
 
 
 </resources>
