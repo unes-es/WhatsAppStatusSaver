@@ -35,7 +35,7 @@ import java.util.Set;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
-    List<String> files = new ArrayList<>();
+    public List<String> files = new ArrayList<>();
     Set<Integer> selectedFiles = new HashSet<>();
 
     public ImageAdapter(Context c, List<String> files) {

@@ -123,7 +123,22 @@ public class GalleryFragment extends Fragment {
             //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.select_all){
-            Toast.makeText(context,"Select ALL",Toast.LENGTH_SHORT).show();
+
+            if(selectedFiles.size() == imageAdapter.files.size())
+            {
+                selectedFiles.clear();
+                menu.findItem(R.id.delete).setVisible(false);
+                menu.findItem(R.id.share).setVisible(false);
+                menu.findItem(R.id.select_all).setVisible(false);
+                menu.findItem(R.id.refresh).setVisible(true);
+
+            }
+            else {
+                for (int i = 0; i < imageAdapter.files.size(); i++) {
+                    selectedFiles.add(i);
+                }
+            }
+            refreshGridView();
         }
         return super.onOptionsItemSelected(item);
     }

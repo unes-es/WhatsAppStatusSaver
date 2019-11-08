@@ -1,16 +1,27 @@
 package com.example.whatsappstatussaver;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import android.os.SystemClock;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,12 +39,12 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-
 
     String[] permissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -46,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        (new NotificationsManager(this)).createNotificationChannel();
+
+
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         if(preferences.getBoolean("IS_DARK_MODE_ON",false)){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -68,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissions();
         FileManager.preferences = this.getSharedPreferences(this.getPackageName(), Context.MODE_PRIVATE);
+        if(preferences.getBoolean("ENABLE_NOTIFICATIONS",true))
+            NotificationsManager.scheduleNotification(this,NotificationsManager.DELAY);
     }
 
 
@@ -110,5 +126,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
 
 }

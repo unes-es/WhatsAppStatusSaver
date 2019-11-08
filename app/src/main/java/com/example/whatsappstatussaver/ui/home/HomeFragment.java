@@ -1,5 +1,6 @@
 package com.example.whatsappstatussaver.ui.home;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -21,12 +22,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.whatsappstatussaver.FileManager;
 import com.example.whatsappstatussaver.ImageAdapter;
+import com.example.whatsappstatussaver.MainActivity;
+import com.example.whatsappstatussaver.NotificationsManager;
 import com.example.whatsappstatussaver.R;
 
 import java.io.File;
@@ -130,12 +136,17 @@ public class HomeFragment extends Fragment {
             //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.select_all){
-            if(selectedFiles.size() == FileManager.whatsAppFiles.size())
+            if(selectedFiles.size() == imageAdapter.files.size())
             {
                 selectedFiles.clear();
+                menu.findItem(R.id.save).setVisible(false);
+                menu.findItem(R.id.share).setVisible(false);
+                menu.findItem(R.id.select_all).setVisible(false);
+                menu.findItem(R.id.refresh).setVisible(true);
+
             }
             else {
-                for (int i = 0; i < FileManager.whatsAppFiles.size(); i++) {
+                for (int i = 0; i < imageAdapter.files.size(); i++) {
                     selectedFiles.add(i);
                 }
             }
