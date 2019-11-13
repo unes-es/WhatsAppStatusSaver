@@ -81,6 +81,7 @@ public class ImageAdapter extends BaseAdapter {
         }
         else {
             myBitmap = BitmapFactory.decodeFile(files.get(position));
+            viewHolder.image.setForeground(null);
         }
         viewHolder.image.setImageBitmap(myBitmap);
 

@@ -30,6 +30,7 @@ public class FileManager {
     public final static List<String> whatsAppFiles = new ArrayList<>();
     public final static List<String> savedFiles = new ArrayList<>();
 
+
     public final static String SAVED_STATUS_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/WhatsApp Status/";
     public final static String WHATSAPP_STATUS_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/WhatsApp/Media/.Statuses/";
     public static SharedPreferences preferences;

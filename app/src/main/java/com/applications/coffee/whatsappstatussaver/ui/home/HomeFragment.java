@@ -32,8 +32,6 @@ import java.util.Set;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
-
     Set<Integer> selectedFiles = new HashSet<>();
     Context context;
     GridView gridview;
@@ -44,7 +42,6 @@ public class HomeFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
         /*final TextView textView = root.findViewById(R.id.text_home);
@@ -105,8 +102,8 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save) {
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            if (item.getItemId() == R.id.save) {
             FileManager.saveToGallery(selectedFiles);
             Toast.makeText(context,R.string.saved_to_gallery,Toast.LENGTH_SHORT).show();
             selectedFiles.clear();
