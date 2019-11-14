@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.applications.coffee.whatsappstatussaver.FileManager;
 import com.applications.coffee.whatsappstatussaver.R;
+import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.ActionModeController;
 import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemDetailsLookup;
 import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemKeyProvider;
 import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.RecyclerViewAdapter;
@@ -116,29 +117,17 @@ public class GalleryFragment extends Fragment {
         if (item.getItemId() == R.id.delete) {
             FileManager.delete(selectionTracker.getSelection());
             Toast.makeText(context,R.string.deleted,Toast.LENGTH_SHORT).show();
-            refreshRecyclerView();
-            menu.findItem(R.id.delete).setVisible(false);
-            menu.findItem(R.id.share).setVisible(false);
-            menu.findItem(R.id.refresh).setVisible(true);
-            menu.findItem(R.id.select_all).setVisible(false);
+            recyclerViewAdapter.notifyDataSetChanged();
+            selectionTracker.clearSelection();
         }
         if (item.getItemId() == R.id.refresh){
             refreshRecyclerView();
             Toast.makeText(context,R.string.refreshed,Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.share){
-            //FileManager.share(context,FileManager.savedFiles,selectedFiles);
-            //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
+            FileManager.share(context,FileManager.savedFiles,selectionTracker.getSelection());
         }
         if (item.getItemId() == R.id.select_all){
-
-            if(selectionTracker.getSelection().size() == recyclerViewAdapter.data.size()) {
-                menu.findItem(R.id.delete).setVisible(false);
-                menu.findItem(R.id.share).setVisible(false);
-                menu.findItem(R.id.select_all).setVisible(false);
-                menu.findItem(R.id.refresh).setVisible(true);
-
-            }
             recyclerViewAdapter.selectAll();
         }
         return super.onOptionsItemSelected(item);
@@ -198,12 +187,10 @@ public class GalleryFragment extends Fragment {
 
                 super.onSelectionChanged();
                 if (selectionTracker.hasSelection() && actionMode == null) {
-                    //actionMode =  getActivity().startActionMode(new ActionModeController(context,selectionTracker)) .startSupportActionMode(new ActionModeController(context,selectionTracker));
                     menu.findItem(R.id.delete).setVisible(true);
                     menu.findItem(R.id.share).setVisible(true);
                     menu.findItem(R.id.select_all).setVisible(true);
                     menu.findItem(R.id.refresh).setVisible(false);
-                    //setMenuItemTitle(selectionTracker.getSelection().size());
                 } else if (!selectionTracker.hasSelection() && actionMode != null) {
                     actionMode.finish();
                     actionMode = null;
@@ -212,7 +199,6 @@ public class GalleryFragment extends Fragment {
                     menu.findItem(R.id.share).setVisible(false);
                     menu.findItem(R.id.select_all).setVisible(false);
                     menu.findItem(R.id.refresh).setVisible(true);
-                    //setMenuItemTitle(selectionTracker.getSelection().size());
                 }
                 Iterator<String> itemIterable = selectionTracker.getSelection().iterator();
                 while (itemIterable.hasNext()) {

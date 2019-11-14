@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.applications.coffee.whatsappstatussaver.FileManager;
-import com.applications.coffee.whatsappstatussaver.NotificationsManager;
 import com.applications.coffee.whatsappstatussaver.R;
 import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemDetailsLookup;
 import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemKeyProvider;
@@ -118,10 +117,7 @@ public class HomeFragment extends Fragment {
             if (item.getItemId() == R.id.save) {
             FileManager.saveToGallery(selectionTracker.getSelection());
             Toast.makeText(context,R.string.saved_to_gallery,Toast.LENGTH_SHORT).show();
-            menu.findItem(R.id.save).setVisible(false);
-            menu.findItem(R.id.share).setVisible(false);
-            menu.findItem(R.id.select_all).setVisible(false);
-            menu.findItem(R.id.refresh).setVisible(true);
+            selectionTracker.clearSelection();
         }
         if (item.getItemId() == R.id.refresh){
             refreshRecyclerView();
@@ -129,15 +125,8 @@ public class HomeFragment extends Fragment {
         }
         if (item.getItemId() == R.id.share){
             FileManager.share(context,FileManager.whatsAppFiles,selectionTracker.getSelection());
-            //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.select_all) {
-            if(selectionTracker.getSelection().size() == recyclerViewAdapter.data.size()) {
-                menu.findItem(R.id.save).setVisible(false);
-                menu.findItem(R.id.share).setVisible(false);
-                menu.findItem(R.id.select_all).setVisible(false);
-                menu.findItem(R.id.refresh).setVisible(true);
-            }
             recyclerViewAdapter.selectAll();
         }
         return super.onOptionsItemSelected(item);

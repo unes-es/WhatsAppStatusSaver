@@ -22,8 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class FileManager {
@@ -41,7 +44,7 @@ public class FileManager {
         File f = new File(SAVED_STATUS_DIR);
         f.mkdir();
         try{
-            copyFileFast(new File(filePath),new File(SAVED_STATUS_DIR + "SAVED_STATUS_"+savedFilesCpt+getExtensionFromPath(filePath)));
+            copyFileFast(new File(filePath),new File(SAVED_STATUS_DIR + "SAVED_STATUS_"+String.format (Locale.US,"%05d",savedFilesCpt)+getExtensionFromPath(filePath)));
         }
         catch (IOException x) {
             Log.d("tag", "saveToGallery: "+x.getMessage());
@@ -68,6 +71,11 @@ public class FileManager {
                 }
             }
         }
+        Collections.sort(files, new Comparator<String>() {
+            public int compare(String path1, String path2) {
+                return path2.compareToIgnoreCase(path1);
+            }
+        });
     }
 
     public static void copy(File src, File dst) throws IOException

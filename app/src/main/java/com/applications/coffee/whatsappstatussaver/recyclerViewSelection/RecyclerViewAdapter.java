@@ -25,8 +25,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +84,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     protected Bitmap doInBackground(String[] objects) {
                         return ThumbnailUtils.createVideoThumbnail(objects[0], MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                     }
-
                     @Override
                     protected void onPostExecute(Bitmap o) {
                         super.onPostExecute(o);
@@ -127,8 +124,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
-        //ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        //inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
@@ -141,22 +138,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             selectionTracker.setItemsSelected(data, true);
         }
         notifyDataSetChanged();
-    }
-
-    public void delete(String path){
-        String[] retCol = { MediaStore.Audio.Media._ID };
-        Cursor cur = context.getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, retCol, MediaStore.Images.Media.TITLE + "='"+path+"'", null, null );
-        try {
-            if (cur.getCount() == 0) {
-                return;
-            }
-            cur.moveToFirst();
-            int id = cur.getInt(cur.getColumnIndex(MediaStore.MediaColumns._ID));
-            Uri uri = ContentUris.withAppendedId( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id );
-            int cnt = context.getContentResolver().delete(uri, null, null);
-        }
-        finally {
-            cur.close();
-        }
     }
 }
