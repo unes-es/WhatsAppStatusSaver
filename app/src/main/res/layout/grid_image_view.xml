@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ProgressBar android:id="@+id/loading_spinner"
+    <ProgressBar
         style="?android:progressBarStyleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
-    <com.applications.coffee.whatsappstatussaver.GridViewImageItem
+    <com.applications.coffee.whatsappstatussaver.SquareImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

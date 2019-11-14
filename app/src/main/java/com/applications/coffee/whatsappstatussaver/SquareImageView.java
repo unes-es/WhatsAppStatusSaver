@@ -5,17 +5,17 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 
-public class GridViewImageItem extends ImageView {
+public class SquareImageView extends ImageView {
 
-    public GridViewImageItem(Context context) {
+    public SquareImageView(Context context) {
         super(context);
     }
 
-    public GridViewImageItem(Context context, AttributeSet attrs) {
+    public SquareImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public GridViewImageItem(Context context, AttributeSet attrs, int defStyle) {
+    public SquareImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
