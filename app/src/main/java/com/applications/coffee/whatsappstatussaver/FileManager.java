@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.selection.Selection;
 
 import com.applications.coffee.whatsappstatussaver.R;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,11 +48,12 @@ public class FileManager {
         }
         savedFilesCpt++;
     }
-    public static void saveToGallery(Set<Integer> selectedFiles){
+    public static void saveToGallery(Selection selectedFiles){
         Log.d("tag", "saveToGallery: "+selectedFiles.size());
         savedFilesCpt = preferences.getInt("savedFilesCpt",0);
-        for (Integer file:selectedFiles) {
-            saveToGallery(whatsAppFiles.get(file));
+        Iterator<String> items = selectedFiles.iterator();
+        while (items.hasNext()) {
+            saveToGallery(items.next());
         }
         preferences.edit().putInt("savedFilesCpt",savedFilesCpt).apply();
     }
@@ -80,9 +83,11 @@ public class FileManager {
         in.close();
     }
 
-    public static void delete(Set<Integer> files){
-        for (Integer file:files) {
-            new File(savedFiles.get(file)).delete();
+    public static void delete(Selection files){
+
+        Iterator<String> items = files.iterator();
+        while (items.hasNext()) {
+            new File(items.next()).delete();
         }
     }
 
@@ -118,10 +123,11 @@ public class FileManager {
         }
     }
 
-    public static void share(Context context, List<String> files, Set<Integer> selectedFiles){
+    public static void share(Context context, List<String> files, Selection selectedFiles){
+        Iterator<String> items = selectedFiles.iterator();
         ArrayList<Uri> uris = new ArrayList<>();
-        for (Integer f:selectedFiles) {
-            uris.add(FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(files.get(f))));
+        while (items.hasNext()) {
+            uris.add(FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(items.next())));
         }
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);

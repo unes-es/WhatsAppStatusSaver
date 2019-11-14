@@ -4,61 +4,58 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.OnDragInitiatedListener;
+import androidx.recyclerview.selection.OnItemActivatedListener;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.applications.coffee.whatsappstatussaver.FileManager;
-import com.applications.coffee.whatsappstatussaver.ImageAdapter;
 import com.applications.coffee.whatsappstatussaver.R;
+import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemDetailsLookup;
+import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.CustomItemKeyProvider;
+import com.applications.coffee.whatsappstatussaver.recyclerViewSelection.RecyclerViewAdapter;
 
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
-
-    Set<Integer> selectedFiles = new HashSet<>();
     Context context;
-    GridView gridview;
-    ImageAdapter imageAdapter;
     Menu menu;
     View root;
     TextView emptyMessage;
 
+    SelectionTracker selectionTracker;
+    private ActionMode actionMode;
+    RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
         root = inflater.inflate(R.layout.fragment_gallery, container, false);
         setHasOptionsMenu(true);
         context = root.getContext();
         emptyMessage = root.findViewById(R.id.emptyMessage);
-        /*final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-
-
         File f = new File(FileManager.SAVED_STATUS_DIR);
         if (!f.exists()){
             f.mkdir();
@@ -66,30 +63,45 @@ public class GalleryFragment extends Fragment {
 
         FileManager.fetchFilesFromDir(FileManager.savedFiles, FileManager.SAVED_STATUS_DIR);
 
-        imageAdapter = new ImageAdapter(context,FileManager.savedFiles);
-        gridview = root.findViewById(R.id.gridview1);
-        gridview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        gridview.setAdapter(imageAdapter);
-        setGridViewListener();
         if(FileManager.savedFiles.isEmpty()) {
             emptyMessage.setVisibility(View.VISIBLE);
         }
         else{
             emptyMessage.setVisibility(View.INVISIBLE);
         }
+        setUpRecyclerView(FileManager.savedFiles);
         return root;
     }
-    void refreshGridView(){
+
+    void refreshRecyclerView(){
         FileManager.fetchFilesFromDir(FileManager.savedFiles, FileManager.SAVED_STATUS_DIR);
-        imageAdapter = new ImageAdapter(context,FileManager.savedFiles,selectedFiles);
-        imageAdapter.notifyDataSetChanged();
-        gridview.setAdapter(imageAdapter);
-        if(FileManager.savedFiles.isEmpty()) {
+        recyclerViewAdapter.cleanThumbnails();
+        setUpRecyclerView(FileManager.savedFiles);
+        recyclerViewAdapter.notifyDataSetChanged();
+        if(FileManager.whatsAppFiles.isEmpty()) {
             emptyMessage.setVisibility(View.VISIBLE);
         }
         else{
             emptyMessage.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerViewAdapter.cleanThumbnails();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        recyclerViewAdapter.cleanThumbnails();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        recyclerViewAdapter.cleanThumbnails();
     }
 
     @Override
@@ -102,101 +114,117 @@ public class GalleryFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete) {
-            FileManager.delete(selectedFiles);
+            FileManager.delete(selectionTracker.getSelection());
             Toast.makeText(context,R.string.deleted,Toast.LENGTH_SHORT).show();
-            selectedFiles.clear();
-            refreshGridView();
+            refreshRecyclerView();
             menu.findItem(R.id.delete).setVisible(false);
             menu.findItem(R.id.share).setVisible(false);
             menu.findItem(R.id.refresh).setVisible(true);
             menu.findItem(R.id.select_all).setVisible(false);
         }
         if (item.getItemId() == R.id.refresh){
-            refreshGridView();
+            refreshRecyclerView();
             Toast.makeText(context,R.string.refreshed,Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.share){
-            FileManager.share(context,FileManager.savedFiles,selectedFiles);
+            //FileManager.share(context,FileManager.savedFiles,selectedFiles);
             //Toast.makeText(context,"Shared",Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.select_all){
 
-            if(selectedFiles.size() == imageAdapter.files.size())
-            {
-                selectedFiles.clear();
+            if(selectionTracker.getSelection().size() == recyclerViewAdapter.data.size()) {
                 menu.findItem(R.id.delete).setVisible(false);
                 menu.findItem(R.id.share).setVisible(false);
                 menu.findItem(R.id.select_all).setVisible(false);
                 menu.findItem(R.id.refresh).setVisible(true);
 
             }
-            else {
-                for (int i = 0; i < imageAdapter.files.size(); i++) {
-                    selectedFiles.add(i);
-                }
-            }
-            refreshGridView();
+            recyclerViewAdapter.selectAll();
         }
         return super.onOptionsItemSelected(item);
     }
+    public void setUpRecyclerView(List<String> data){
+        recyclerViewAdapter = new RecyclerViewAdapter(data,context);
+        recyclerView = root.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+        recyclerViewAdapter.setHasStableIds(true);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        selectionTracker = new SelectionTracker.Builder<>(
+                "my-selection-id",
+                recyclerView,
+                new CustomItemKeyProvider(1, data),
+                new CustomItemDetailsLookup(recyclerView),
+                StorageStrategy.createLongStorage()
+        )
+                .withOnItemActivatedListener(new OnItemActivatedListener<Long>() {
+                    @Override
+                    public boolean onItemActivated(@NonNull ItemDetailsLookup.ItemDetails<Long> item, @NonNull MotionEvent e) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        Uri photoURI = FileProvider.getUriForFile(context, context.getPackageName(), new File(recyclerViewAdapter.data.get(item.getPosition())));
+                        intent.setDataAndType(photoURI, context.getContentResolver().getType(photoURI));
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(intent);
 
-    private void setGridViewListener(){
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (selectedFiles.isEmpty()) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName(), new File(FileManager.savedFiles.get(position)));
-                    intent.setDataAndType(photoURI, context.getContentResolver().getType(photoURI));
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivity(intent);
-                }
-                else {
-                    if(selectedFiles.contains(position)) {
-                        selectedFiles.remove(position);
-                        view.setAlpha(1f);
-                    }else
-                    {
-                        view.setAlpha(0.3f);
-                        selectedFiles.add(position);
+                        Log.d("tag", "Selected ItemId: " +item);
+                        return true;
                     }
-                }
-                if (selectedFiles.isEmpty()) {
-                    menu.findItem(R.id.delete).setVisible(false);
-                    menu.findItem(R.id.share).setVisible(false);
-                    menu.findItem(R.id.select_all).setVisible(false);
-                    menu.findItem(R.id.refresh).setVisible(true);
+                })
+                .withOnDragInitiatedListener(new OnDragInitiatedListener() {
+                    @Override
+                    public boolean onDragInitiated(@NonNull MotionEvent e) {
+                        Log.d("tag", "onDragInitiated");
+                        return true;
+                    }
 
-                }
-                else {
+                })
+                .build();
+        recyclerViewAdapter.setSelectionTracker(selectionTracker);
+
+        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+            @Override
+            public void onItemStateChanged(@NonNull Object key, boolean selected) {
+                super.onItemStateChanged(key, selected);
+            }
+
+            @Override
+            public void onSelectionRefresh() {
+                super.onSelectionRefresh();
+            }
+
+            @Override
+            public void onSelectionChanged() {
+
+                super.onSelectionChanged();
+                if (selectionTracker.hasSelection() && actionMode == null) {
+                    //actionMode =  getActivity().startActionMode(new ActionModeController(context,selectionTracker)) .startSupportActionMode(new ActionModeController(context,selectionTracker));
                     menu.findItem(R.id.delete).setVisible(true);
                     menu.findItem(R.id.share).setVisible(true);
                     menu.findItem(R.id.select_all).setVisible(true);
                     menu.findItem(R.id.refresh).setVisible(false);
-
+                    //setMenuItemTitle(selectionTracker.getSelection().size());
+                } else if (!selectionTracker.hasSelection() && actionMode != null) {
+                    actionMode.finish();
+                    actionMode = null;
+                } else {
+                    menu.findItem(R.id.delete).setVisible(false);
+                    menu.findItem(R.id.share).setVisible(false);
+                    menu.findItem(R.id.select_all).setVisible(false);
+                    menu.findItem(R.id.refresh).setVisible(true);
+                    //setMenuItemTitle(selectionTracker.getSelection().size());
+                }
+                Iterator<String> itemIterable = selectionTracker.getSelection().iterator();
+                while (itemIterable.hasNext()) {
+                    Log.i("tag", itemIterable.next());
                 }
             }
-        });
-        gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setAlpha(0.3f);
-                selectedFiles.add(position);
-                if (selectedFiles.isEmpty()) {
-                    menu.findItem(R.id.delete).setVisible(false);
-                    menu.findItem(R.id.share).setVisible(false);
-                    menu.findItem(R.id.select_all).setVisible(false);
-                    menu.findItem(R.id.refresh).setVisible(true);
-                }
-                else {
-                    menu.findItem(R.id.delete).setVisible(true);
-                    menu.findItem(R.id.share).setVisible(true);
-                    menu.findItem(R.id.select_all).setVisible(true);
-                    menu.findItem(R.id.refresh).setVisible(false);
-                }
-                return true;
+            public void onSelectionRestored() {
+                super.onSelectionRestored();
             }
         });
     }
+
 }
