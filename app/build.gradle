@@ -7,8 +7,8 @@ android {
         applicationId "com.applications.coffee.whatsappstatussaver"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 4
-        versionName "4"
+        versionCode 1
+        versionName "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
