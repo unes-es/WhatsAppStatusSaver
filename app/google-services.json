@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "808854879559",
+    "firebase_url": "https://status-saver-510ae.firebaseio.com",
+    "project_id": "status-saver-510ae",
+    "storage_bucket": "status-saver-510ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808854879559:android:df544a0dce30e17a966062",
+        "android_client_info": {
+          "package_name": "com.applications.coffee.statussaver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808854879559-6oi4lcvsell6s33peek3sdrkgcmriki3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgQmNFPL7ZnzxE9A1AZgEWYmmw9s33Eug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808854879559-6oi4lcvsell6s33peek3sdrkgcmriki3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
