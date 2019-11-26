@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_header_subtitle"> Meilleur moyen de sauvegarder les statuts WhatsApp </string>
+    <string name="nav_header_subtitle"> Meilleur moyen de sauvegarder les statuts </string>
         <string name="nav_header_desc"> En-tête de navigation </string>
 
-        <string name="menu_home"> Status WhatsApp </string>
+        <string name="menu_home"> Status </string>
         <string name="menu_gallery"> Statut enregistré </string>
         <string name="menu_slideshow"> Diaporama </string>
         <string name="menu_tools"> Outils </string>

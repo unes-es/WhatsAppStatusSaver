@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name" translatable="false">WhatsApp Status Saver</string>
-    <string name="nav_header_title" translatable="false">WhatsApp Status</string>
-    <string name="nav_header_subtitle">Best way to save whatsApp statuses</string>
+    <string name="app_name" translatable="false">Status Saver</string>
+    <string name="nav_header_title" translatable="false">Status</string>
+    <string name="nav_header_subtitle">Best way to save statuses</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="menu_home">WhatsApp Status</string>
+    <string name="menu_home">Status</string>
     <string name="menu_gallery">Saved Status</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>

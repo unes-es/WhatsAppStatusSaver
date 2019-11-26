@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.applications.coffee.whatsappstatussaver">
+    package="com.applications.coffee.statussaver">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.applications.coffee.whatsappstatussaver.MainActivity"
+            android:name="com.applications.coffee.statussaver.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="standard"
@@ -26,15 +26,15 @@
         </activity>
 
         <provider
-            android:name="com.applications.coffee.whatsappstatussaver.GenericFileProvider"
-            android:authorities="com.applications.coffee.whatsappstatussaver"
+            android:name="com.applications.coffee.statussaver.GenericFileProvider"
+            android:authorities="com.applications.coffee.statussaver"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <receiver android:name="com.applications.coffee.whatsappstatussaver.NotificationsManager" />
+        <receiver android:name="com.applications.coffee.statussaver.NotificationsManager" />
     </application>
 
 </manifest>

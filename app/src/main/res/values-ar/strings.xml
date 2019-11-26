@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name = "nav_header_subtitle"> أفضل طريقة لحفظ حالات whatsApp </string>
+    <string name = "nav_header_subtitle"> أفضل طريقة لحفظ حالات </string>
         <string name = "nav_header_desc"> رأس التنقل </string>
 
-        <string name = "menu_home"> حالة WhatsApp </string>
+        <string name = "menu_home"> STATUS </string>
         <string name = "menu_gallery"> الحالة المحفوظة </string>
         <string name = "menu_slideshow"> عرض الشرائح </string>
         <string name = "menu_tools"> الأدوات </string>
